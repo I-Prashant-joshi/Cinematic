@@ -6,16 +6,19 @@ export const navItem=[
     {
         label:"Home",
         href:"hone",
+        key:"home",
         icon:HomeIcon
     },
     {
-        label:"Movies",
+        label:"Movie",
         href:"movie",
+        key:"movie",
         icon:SlideshowIcon
     },
     {
         label:"Tv Shows",
         href:"tv",
+        key:"tv",
         icon:LiveTvIcon
     },
 ]

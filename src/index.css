@@ -64,3 +64,30 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.custom-scroll {
+  overflow: auto;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.custom-scroll {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.carddiv{
+  max-height: 300px;
+  max-width: 250px;
+  background-color: #ffffff;
+  overflow: hidden;
+  position: relative;
+}
+
+.card_img{
+  transition: transform 0.3s ease-in-out;
+}
+.card_img:hover{
+  transform: scale(1.1);
+}

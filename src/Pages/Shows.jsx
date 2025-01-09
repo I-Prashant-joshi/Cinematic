@@ -3,24 +3,20 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios"; 
 import { useDispatch, useSelector } from "react-redux";
 import '../index.css'
-import { useNavigate, useSearchParams } from "react-router-dom";
-import useDebounce from "../Common/Debounce";
-import { Box} from "@mui/joy";
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import { changeSearchValue, changeTab } from "../redux/Home";
+import {useNavigate, useParams} from "react-router"
+import { changeSearchValue } from "../redux/Home";
 
-const Search = () => {
+const Shows = () => {
   const [items, setItems] = useState([]); 
   const [page, setPage] = useState(1); 
   const [hasMore, setHasMore] = useState(true); 
   const state = useSelector((state) => state.homeDetail);
-  const [search,setSearch]=useSearchParams()
-  const navigate=useNavigate()
+  const {name}=useParams();
+  const navigate = useNavigate()
   const dispatch=useDispatch()
-  const searchValue = useDebounce( search.get("q"),1000)
 
   useEffect(() => {
-    dispatch(changeTab("search"))
+    dispatch(changeSearchValue(""))
     setPage(1); 
     window.scrollTo(0, 0);
     fetchData(true);
@@ -31,18 +27,13 @@ const Search = () => {
     window.scrollTo(0, 0);
     setItems([]); 
     fetchData(true); 
-  }, [searchValue]);
-
-  function exploreShow(id,showName){
-    const url = `/showDetail/${showName}/${id}`;
-    navigate(url)
-}
+  }, [name]);
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`search/multi`,{
+      const response = await axios.get(`discover/${name}`,{
         params: {
-          query: searchValue || "all", 
+          page: page, 
         },
       });
       const fetchedData = response.data.results; 
@@ -59,7 +50,10 @@ const Search = () => {
     }
   };
 
-
+  function exploreShow(id,showName){
+    const url = `/showDetail/${showName}/${id}`;
+    navigate(url)
+}
 
   return (
     <div style={{ overflow: "hidden", display:"flex",justifyContent:"center"}}>
@@ -67,17 +61,15 @@ const Search = () => {
     class="custom-scroll"
       dataLength={items.length}
       next={fetchData}
+      
       hasMore={hasMore}
-      loader={<h2 style={{color:"white"}}>Loading...</h2>}
+      loader={<h4>Loading...</h4>}
       endMessage={
-        <Box sx={{ display:"flex", marginTop:"30px",flexDirection:"column", alignItems:"center", justifyContent:"center",fontSize:{
-          md:"1rem",
-          lg:"2rem"
-        },color:"#86efac"}}>
-          <ThumbUpAltIcon  sx={{fontSize:{md:"1rem",lg:"3.5rem"}}}/>
+        <p style={{ textAlign: "center" }}>
           <b>Yay! You have seen it all</b>
-        </Box>
+        </p>
       }
+      // pullDownToRefresh
       pullDownToRefreshThreshold={50}
       pullDownToRefreshContent={
         <h3 style={{ textAlign: "center", color:"white" }}>&#8595; Pull down to refresh</h3>
@@ -88,7 +80,7 @@ const Search = () => {
     >
         <div className="grid overflow-hidden grid-cols-2 md:grid-cols-5 lg:grid-cols-7 gap-2">
       {items && items?.map((itemData) => (
-        <div key={itemData.id} className="card_div" onClick={()=>exploreShow(itemData.id,itemData.media_type)}>
+        <div key={itemData.id} className="card_div"  onClick={()=>exploreShow(itemData.id,name)}>
              <img  className="card_img" src={`${state.img}${itemData.poster_path}`} alt="PosterData"  />
         </div>
       ))}
@@ -98,4 +90,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Shows;

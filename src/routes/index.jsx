@@ -14,25 +14,30 @@ const Loadable = (Component) => {
     return WrappedComponent;
   };
 
-export default function Router() { 
-  return useRoutes([ 
-    {
-      path: "/",
-      element: <App />,
-      children: [
-        { element: <Navigate to='home' replace />, index: true },
-        { path: "home", element: <Home /> },
-        { path: "search", element: <Search /> },
-        { path: "404", element: <Page404 /> },
-        { path: "*", element: <Navigate to="/404" replace /> }, 
-      ],
-    },
-    { path: "*", element: <Navigate to="/404" replace /> },
-  ]); 
-} 
-const Home = Loadable( lazy(() => import("../Pages/Home")));
-const Page404 = Loadable(lazy(() => import("../Pages/Page404")));
-const Search = Loadable(lazy(() => import("../Pages/Search")));
+  const Home = Loadable(lazy(() => import("../Pages/Home")));
+  const Shows = Loadable(lazy(() => import("../Pages/Shows")));
+  const Search = Loadable(lazy(() => import("../Pages/Search")));
+  const ShowDetails = Loadable(lazy(() => import("../Pages/ShowDetails")));
+  const Page404 = Loadable(lazy(() => import("../Pages/Page404")));
+
+  
+  export default function Router() {
+    return useRoutes([
+      {
+        path: "/",
+        element: <App />,
+        children: [
+          { index: true, element: <Navigate to="/home" replace /> }, // Default route
+          { path: "home", element: <Home /> },
+          { path: "search", element: <Search /> },
+          { path: "showDetail/:name/:id", element: <ShowDetails /> },
+          { path: "shows/:name", element: <Shows /> }, 
+          { path: "*", element: <Navigate to="/404" replace /> },
+        ],
+      },
+      { path: "*", element: <Page404 /> },
+    ]);
+  }
 
  
  

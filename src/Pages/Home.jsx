@@ -19,7 +19,7 @@ function Home() {
       <MoviesLIstScrollar data={state.popularTvSows} trending={false} title={"Popular Tv Sows"} showType="tv" />
       <MoviesLIstScrollar data={state.onAirShows} trending={false} title={"On The Air"} showType="tv" />
       <MoviesLIstScrollar data={state.upcoming} trending={false} title={"Upcoming"} showType="movie" />
-    </div>
+      </div>
   )
 }
 

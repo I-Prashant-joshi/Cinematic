@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import logo from '/logoWhite.png'; // Use relative path for public folder images in Vite
+import logo from '../../src/assets/cinematicLogo.png'; // Use relative path for public folder images in Vite
 import { navItem } from './constants';
 import Box from '@mui/material/Box';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
@@ -25,7 +25,9 @@ function Header() {
     }
     setDrawerOpen(open);
   };
-
+  useEffect(()=>{
+    window.scrollTo(1,1)
+  },[location.pathname])
   function onSubmitForm(e){
     e.preventDefault();
   }
@@ -36,7 +38,7 @@ function Header() {
         {navItem.map((text) => (
           <ListItem key={text.label} disablePadding>
             <ListItemButton onClick={()=>changeTabCall(text.label)} style={{color:
-            state.tab === text.label ? "green" : "black"
+            state.tab === text.label ? "#00e1ff" : "black"
           }}>
             <text.icon/>
               <ListItemText primary={text.label} className='ml-3'/>
@@ -69,13 +71,13 @@ function changeTabCall(tab){
     <header className=" fixed bg-[#5252538c] w-full h-12 flex items-center justify-between select-none z-50 lg:h-16 md:h-12">
       <div className='flex items-center'>
       <div className="h-full w-[7rem] flex items-center ml-5">
-        <img src={logo} alt="Logo" className="w-[5rem] lg:w-[10rem]" />
+        <img src={logo} alt="Logo" className="w-[3rem] lg:w-[4rem]" />
       </div>
       <div className="hidden lg:flex gap-5 ml-10">
         {navItem?.map((item) => (
           <nav key={item.label}
           className={`font-bold lg:font-serif cursor-pointer text-[1.4rem] pt-2 ${
-            state.tab === item.key ? "text-green-300 " : "text-white"
+            state.tab === item.key ? "text-[#12d9f3] " : "text-white"
           }`}
            onClick={()=>changeTabCall(item.key)}
            >

@@ -6,15 +6,13 @@ import "./index.css";
 import GradeIcon from '@mui/icons-material/Grade';
 
 function Card({ data, trending }) {
-  console.log("data",data);
-  
   const state = useSelector((state) => state.homeDetail);
   const options = { day: 'numeric', month: 'short', year: 'numeric' };
   return (
     <MuiCard
       orientation="horizontal"
       variant="outlined"
-      className="card-container "
+      className="card-container"
     >
       {/* Image Section */}
       <CardMedia
@@ -30,7 +28,7 @@ function Card({ data, trending }) {
          padding:0.1,
          },
          transition: "all 0.3s ease",
-          height: "250px",
+          height: "220px",
           margin: 0,
           padding: 0,
           borderRadius: "8px",
@@ -92,12 +90,14 @@ function Card({ data, trending }) {
         >
           {data.title ? data.title : data.name || "No description available."}
         </Typography>
-        <div className="text-[white] flex justify-between">
-            <span>
+        <div className="text-[white] flex justify-between p-1">
+            <span className="text-nowrap text-xs lg:text-sm">
             {new Date(data.release_date ? data.release_date : data.first_air_date).toLocaleDateString('en-US', options)}
             </span>
-            <span className="mr-5 text-[green]">{data.vote_average?.toFixed(1)} <span className="text-[gold] 
-            ml-2"><GradeIcon sx={{fontSize:"14px"}} /></span></span>
+            <div className="flex items-center">
+            <span className=" text-[green] text-nowrap text-xs lg:text-[12px]">{data.vote_average?.toFixed(1)} <span className="text-[gold] 
+            "><GradeIcon sx={{fontSize:"14px"}} /></span></span>
+            </div>
         </div>
 
       </CardContent>

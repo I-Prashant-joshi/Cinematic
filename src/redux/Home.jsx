@@ -7,6 +7,8 @@ const HomeDetail = createSlice({
         searchValue:"",
         posterData:[],
         trending:[],
+        loading:true,
+        networkError:false,
         nowPlaying:[],
         topRated:[],
         popularTvSows:[],
@@ -45,10 +47,17 @@ const HomeDetail = createSlice({
         changeSearchValue:(state,action)=>{
             state.searchValue=action.payload
         },
+        changeLoading:(state,action)=>{
+            state.loading=action.payload
+        },
+        changeNetworkError:(state,action)=>{
+            state.networkError=action.payload
+        },
+        
 
 
     }
 })
 
 export default HomeDetail.reducer
-export const {changeTab,popularShows,onAirShows,upcomingMovie,bannerData,imgBaseUrl,trendingData,nowPlaying,topRatedMovie,changeSearchValue}=HomeDetail.actions
+export const {changeLoading,changeNetworkError,changeTab,popularShows,onAirShows,upcomingMovie,bannerData,imgBaseUrl,trendingData,nowPlaying,topRatedMovie,changeSearchValue}=HomeDetail.actions

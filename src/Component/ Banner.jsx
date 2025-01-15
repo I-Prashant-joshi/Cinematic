@@ -8,6 +8,7 @@ function  Banner() {
     
   return (
     <div>
+      
     <Carousel showArrows={true} autoPlay={true} infiniteLoop={true} showIndicators={false} swipeable={true} 
     >
       {state?.posterData?.map((itemDetail, index) => (

@@ -78,8 +78,7 @@ button:focus-visible {
   scrollbar-width: none; /* Firefox */
 }
 .carddiv{
-  max-height: 300px;
-  max-width: 250px;
+  max-width: 180px;
   background-color: #ffffff;
   overflow: hidden;
   position: relative;

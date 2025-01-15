@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 
 export default function Footer() {
   return (
-    <Box container sx={{backgroundColor:"#626161",color:"white",fontSize:{
+    <Box  sx={{backgroundColor:"#626161",color:"white",fontSize:{
       md:"1rem",
       lg:"1.7rem"
     },alignItems:"center",padding:1}}>

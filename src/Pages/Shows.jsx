@@ -5,10 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import '../index.css'
 import {useNavigate, useParams} from "react-router"
 import { changeSearchValue } from "../redux/Home";
+import Loader from "react-js-loader";
+import NetworkConnection from "../Component/NetworkConnection";
+import VPNPage from "../Component/VPNPage";
+
 
 const Shows = () => {
   const [items, setItems] = useState([]); 
   const [page, setPage] = useState(1); 
+  const [load, setLoad] = useState(true); 
   const [hasMore, setHasMore] = useState(true); 
   const state = useSelector((state) => state.homeDetail);
   const {name}=useParams();
@@ -16,17 +21,23 @@ const Shows = () => {
   const dispatch=useDispatch()
 
   useEffect(() => {
-    dispatch(changeSearchValue(""))
+    dispatch(changeSearchValue("")) 
     setPage(1); 
     window.scrollTo(0, 0);
     fetchData(true);
+   
   }, []);
 
   useEffect(() => {
+    setLoad(true)
     setPage(1); 
     window.scrollTo(0, 0);
     setItems([]); 
     fetchData(true); 
+    const loaderTimer=  setTimeout(()=>{
+      setLoad(false)
+          },5000)
+          return ()=>clearTimeout(loaderTimer)
   }, [name]);
 
   const fetchData = async () => {
@@ -56,36 +67,56 @@ const Shows = () => {
 }
 
   return (
-    <div style={{ overflow: "hidden", display:"flex",justifyContent:"center"}}>
-    <InfiniteScroll
-    class="custom-scroll"
-      dataLength={items.length}
-      next={fetchData}
-      
-      hasMore={hasMore}
-      loader={<h4>Loading...</h4>}
-      endMessage={
-        <p style={{ textAlign: "center" }}>
-          <b>Yay! You have seen it all</b>
-        </p>
+    <div>
+     {  load ? (
+                 <div className="h-[100vh] w-[100%] flex justify-center items-center ">
+                   <Loader
+                     type="spinner-cub"
+                     bgColor="#00e1ff"
+                     color="white"
+                     size={60}
+                   />
+                 </div>)
+                 :
+                 state.networkError  ? 
+              < NetworkConnection />
+                 :       
+                 items.length <=0  ? 
+                 <VPNPage />
+
+                 :
+                 <div className="overflow-hidden flex justify-center lg:justify-start">
+                 <InfiniteScroll
+                 class="custom-scroll"
+                   dataLength={items.length}
+                   next={fetchData}
+                   
+                   hasMore={hasMore}
+                   endMessage={
+                     <p style={{ textAlign: "center" }}>
+                       <b>Yay! You have seen it all</b>
+                     </p>
+                   }
+                   // pullDownToRefresh
+                   pullDownToRefreshThreshold={50}
+                   pullDownToRefreshContent={
+                     <h3 style={{ textAlign: "center", color:"white" }}> Pull down to refresh</h3>
+                   }
+                   releaseToRefreshContent={
+                     <h3 style={{ textAlign: "center" }}>; Release to refresh</h3>
+                   }
+                 >
+                     <div className="grid overflow-hidden grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-2">
+                   {items && items?.map((itemData) => (
+                     <div key={itemData.id} className="max-w-[180px] overflow-hidden relative lg:max-w-[250px]"  onClick={()=>exploreShow(itemData.id,name)}>
+                          <img  className="card_img" src={`${state.img}${itemData.poster_path}`} alt="PosterData"  />
+                     </div>
+                   ))}
+                   </div>
+                 </InfiniteScroll>
+                 </div>
       }
-      // pullDownToRefresh
-      pullDownToRefreshThreshold={50}
-      pullDownToRefreshContent={
-        <h3 style={{ textAlign: "center", color:"white" }}>&#8595; Pull down to refresh</h3>
-      }
-      releaseToRefreshContent={
-        <h3 style={{ textAlign: "center" }}>&#8593; Release to refresh</h3>
-      }
-    >
-        <div className="grid overflow-hidden grid-cols-2 md:grid-cols-5 lg:grid-cols-7 gap-2">
-      {items && items?.map((itemData) => (
-        <div key={itemData.id} className="card_div"  onClick={()=>exploreShow(itemData.id,name)}>
-             <img  className="card_img" src={`${state.img}${itemData.poster_path}`} alt="PosterData"  />
-        </div>
-      ))}
-      </div>
-    </InfiniteScroll>
+    
     </div>
   );
 };

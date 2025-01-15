@@ -9,6 +9,7 @@ function MoviesLIstScrollar({data,checkTrend,title,showType}) {
         const url = `/showDetail/${showName}/${id}`;
         navigate(url)
     }
+    
   return (
    <>
       <Typography sx={{color:"white",marginLeft:"10px",fontSize:{

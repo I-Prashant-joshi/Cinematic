@@ -23,8 +23,6 @@ function ShowDetails() {
   const [showCast, setShowCast] = useState(false);
   const state = useSelector((state) => state.homeDetail);
   const data = useFetch(`${name}/${id}`);
-  console.log("data",data);
-  
   const CastDetail = useFetch(`${name}/${id}/credits`);
   const similar = useFetch(`${name}/${id}/similar`);
   const videoDetail = useFetch(`${name}/${id}/videos`);
@@ -33,7 +31,6 @@ function ShowDetails() {
     CastDetail?.data?.cast.length > 0
       ? CastDetail?.data?.cast.slice(0, 10)
       : CastDetail?.data?.crew.slice(0, 10);
-  console.log("ddd", videoDetail);
   const options = { day: "numeric", month: "short", year: "numeric" };
   useEffect(() => {
     dispatch(changeSearchValue(""));

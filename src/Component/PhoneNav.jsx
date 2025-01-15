@@ -9,8 +9,6 @@ function PhoneNav() {
     const navigate=useNavigate()
 
     function changeTabCall(tab){
-      console.log("tab",tab);
-      
       if(tab==="home"){
         navigate("/home")
         dispatch(changeTab(tab))

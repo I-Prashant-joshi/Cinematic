@@ -3,12 +3,16 @@ import { useSelector } from 'react-redux'
 import { Carousel } from 'react-responsive-carousel'
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useNavigate } from 'react-router-dom';
 function  Banner() {
     const state = useSelector((state)=>state.homeDetail)
-    
+    const navigate=useNavigate()
+    function navigateToDetail(data){
+      const url = `/showDetail/${data.media_type}/${data.id}`
+      navigate(url)
+    }
   return (
     <div>
-      
     <Carousel showArrows={true} autoPlay={true} infiniteLoop={true} showIndicators={false} swipeable={true} 
     >
       {state?.posterData?.map((itemDetail, index) => (
@@ -32,7 +36,9 @@ function  Banner() {
          <div className='flex gap-5 pt-2 text-[10px] md:text-[6px] lg:text-[1rem] text-center items-center' >
          <p className='flex flex-col'><span className='text-[#56f156]'>Rating: </span>{itemDetail.vote_average}</p>
           <p className='flex flex-col'><span className='text-[#56f156]'>View: </span> {itemDetail.vote_count}</p>
-          <PlayCircleIcon  sx={{
+          <PlayCircleIcon
+          onClick={()=>navigateToDetail(itemDetail)}
+          sx={{
         fontSize: {
           xs: '20px', 
           md: '40px', 
